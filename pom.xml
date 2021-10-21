@@ -35,8 +35,8 @@
 				      <uri>https://eu1.anypoint.mulesoft.com</uri>
 				      <target>on-prem-acc_0</target>
 				      <targetType>server</targetType>
-				      <username>tu-github-acc</username>
-				      <password>jeem!nast3ZEB3poh</password>
+				      <username>fff</username>
+				      <password>fff</password>
 				      <environment>Acceptance</environment>
 				    </armDeployment>
 				  </configuration>
