@@ -34,7 +34,7 @@
 				      <muleVersion>4.3.0</muleVersion>
 				      <uri>https://eu1.anypoint.mulesoft.com</uri>
 				      <target>on-prem-acc_0</target>
-				      <targetType>Server</targetType>
+				      <targetType>server</targetType>
 				      <username>tu-github-acc</username>
 				      <password>jeem!nast3ZEB3poh</password>
 				      <environment>Acceptance</environment>
