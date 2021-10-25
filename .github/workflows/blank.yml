@@ -3,7 +3,7 @@ name: Deploy to EU On - prem ACC
 env:
   applicationName: 'samplehellp'
   muleAppVersion: '1.0.0' # Must match with the version in the jira ticket
-  artifactName: 'samplehello-mule-application'  
+  artifactName: 'samplehello-1.0.0-SNAPSHOT-mule-application'  
 on:
   workflow_dispatch:
 
