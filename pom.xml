@@ -31,7 +31,7 @@
 				<extensions>true</extensions>
 				 <configuration>
 				    <armDeployment>
-				      <muleVersion>4.3.0</muleVersion>
+				     <!-- <muleVersion>4.3.0</muleVersion> -->
 				      <uri>https://eu1.anypoint.mulesoft.com</uri>
 				      <target>on-prem-acc_0</target>
 				      <targetType>server</targetType>
