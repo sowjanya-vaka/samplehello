@@ -14,7 +14,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<app.runtime>4.3.0-20210622</app.runtime>
-		<mule.maven.plugin.version>3.5.2</mule.maven.plugin.version>
+		<mule.maven.plugin.version>3.5.1</mule.maven.plugin.version>
 	</properties>
 
 	<build>
@@ -35,8 +35,8 @@
 				      <uri>https://eu1.anypoint.mulesoft.com</uri>
 				      <target>on-prem-acc_0</target>
 				      <targetType>server</targetType>
-				      <username>fff</username>
-				      <password>fff</password>
+				      <username>tu-github-acc</username>
+				      <password>jeem!nast3ZEB3poh</password>
 				      <environment>Acceptance</environment>
 				    </armDeployment>
 				  </configuration>
