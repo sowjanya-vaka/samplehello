@@ -1,11 +1,17 @@
 name: Deploy to EU On - prem ACC
 # This workflow will build a MuleSoft project and is manually triggered for deployment.
-env:
-  applicationName: 'samplehellp'
-  muleAppVersion: '1.0.0' # Must match with the version in the jira ticket
-  artifactName: 'samplehello-1.0.0-SNAPSHOT-mule-application'  
+
 on:
   workflow_dispatch:
+
+env:
+  target : on-prem-acc_0
+  targetType : server
+  applicationName: 's-standard-project'
+  muleAppVersion: '1.0.1' # Must match with the version in the jira ticket
+  artifactName: 's-standard-project-1.0.1-mule-application'
+  uri: 'https://eu1.anypoint.mulesoft.com/'
+  environment: 'Acceptance'
 
 jobs:
   build:
@@ -17,10 +23,10 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-mvn-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-mvn-     
+            ${{ runner.os }}-mvn-
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
-        
+
       - name: Maven Settings
         env:
           MAVEN_SETTINGS_XML: ${{ secrets.MAVEN_MULESOFT_SETTINGS_XML }}
@@ -29,30 +35,47 @@ jobs:
 
       - name: Update pom.xml Version
         run: mvn versions:set -DnewVersion=${{env.muleAppVersion}}
-        
+
       - name: Build with Maven
-        run: 
+        run:
           mvn -B package -s ${{ github.workspace }}/settings.xml
-          
+
       - uses: actions/upload-artifact@v2
         with:
           name: ${{env.artifactName}}
           path: ${{ github.workspace }}/target/*mule-application*.jar
-
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - uses: actions/download-artifact@v2
+      with:
+        name: ${{env.artifactName}}
+    - name: Deploy to On prem
+      run: |
+        artifactName=$(ls *.jar | head -1)
+        mvn package deploy -DmuleDeploy -Duri=${{ env.uri}} -Denvironment=${{env.environment}} -Danypoint.username=${{ secrets.ANYPOINT_USERNAME }} -Danypoint.password=${{ secrets.ANYPOINT_PASSWORD }} -Dtarget=${{ env.target}} -DtargetType=${{ env.targetType}}
   release:
     runs-on: ubuntu-latest
     needs: build
     name: Create new github release
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v2
         with:
           name: ${{env.artifactName}}
-          
+
       - name: Extract artifact file name
         id: getfilename
         run: echo "::set-output name=file::$(ls *.jar)"
-          
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
